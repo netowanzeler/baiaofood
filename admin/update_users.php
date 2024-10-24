@@ -149,7 +149,7 @@
           </div>
         </div>
       </div>
-      <footer class="footer"> © 2021 Todos os direitos reservados. </footer>
+      <footer class="footer"> © 2024 Todos os direitos reservados. </footer>
     </div>
   </div>
 

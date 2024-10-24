@@ -53,6 +53,7 @@ if (isset($_POST['submit'])) {
 
             echo "<script>alert('Cadastro realizado com sucesso!');</script>";
             header("refresh:0.1;url=login.php");
+            exit();
         }
 
         $stmt_username->close();

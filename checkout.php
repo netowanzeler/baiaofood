@@ -9,9 +9,18 @@ if (!IS_USER_LOGGED_IN) {
   exit();
 }
 
+if (!isset($_SESSION['cart_item'])) {
+  header('location:restaurants.php');
+  exit();
+}
+
+$success = '';
+$item_total = 0;
+
+
 foreach ($_SESSION["cart_item"] as $item) {
   $item_total += ($item["price"] * $item["quantity"]);
-  if ($_POST['submit']) {
+  if ($_POST['submit'] ?? null) {
     $SQL = "insert into users_orders(u_id,title,quantity,price) values('" . $_SESSION["user_id"] . "','" . $item["title"] . "','" . $item["quantity"] . "','" . $item["price"] . "')";
 
     mysqli_query($db, $SQL);
@@ -20,7 +29,7 @@ foreach ($_SESSION["cart_item"] as $item) {
     unset($item["title"]);
     unset($item["quantity"]);
     unset($item["price"]);
-    $success = "Thankyou! Your Order Placed successfully!";
+    $success = "Obrigado! Seu pedido foi realizado com sucesso!";
 
     echo "<script>alert('Obrigado! Seu pedido foi realizado com sucesso!');</script>";
     echo "<script>window.location.replace('your_orders.php');</script>";
@@ -31,7 +40,6 @@ foreach ($_SESSION["cart_item"] as $item) {
 <!DOCTYPE html>
 <html lang="pt-br">
 
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,7 +47,7 @@ foreach ($_SESSION["cart_item"] as $item) {
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" href="#">
-  <title>Checkout</title>
+  <title>Finalizar Compra</title>
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/animsition.min.css" rel="stylesheet">
@@ -58,9 +66,9 @@ foreach ($_SESSION["cart_item"] as $item) {
         <div class="container">
           <ul class="row links">
 
-            <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="restaurants.php">Choose Restaurant</a></li>
-            <li class="col-xs-12 col-sm-4 link-item "><span>2</span><a href="#">Pick Your favorite food</a></li>
-            <li class="col-xs-12 col-sm-4 link-item active"><span>3</span><a href="checkout.php">Order and Pay</a></li>
+            <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="restaurants.php">Escolha o Restaurante</a></li>
+            <li class="col-xs-12 col-sm-4 link-item "><span>2</span><a href="#">Escolha sua comida favorita</a></li>
+            <li class="col-xs-12 col-sm-4 link-item active"><span>3</span><a href="checkout.php">Pedido e Pagamento</a></li>
           </ul>
         </div>
       </div>
@@ -84,7 +92,7 @@ foreach ($_SESSION["cart_item"] as $item) {
                   <div class="col-sm-12">
                     <div class="cart-totals margin-b-20">
                       <div class="cart-totals-title">
-                        <h4>Cart Summary</h4>
+                        <h4>Resumo do Carrinho</h4>
                       </div>
                       <div class="cart-totals-fields">
 
@@ -94,19 +102,18 @@ foreach ($_SESSION["cart_item"] as $item) {
 
 
                             <tr>
-                              <td>Cart Subtotal</td>
-                              <td> <?php echo "₹" . $item_total; ?></td>
+                              <td>Subtotal do Carrinho</td>
+                              <td> <?php echo "R$" . number_format($item_total, 2, ',', '.'); ?></td>
                             </tr>
                             <tr>
-                              <td>Delivery Charges</td>
-                              <td>Free</td>
+                              <td>Taxas de Entrega</td>
+                              <td>Grátis</td>
                             </tr>
                             <tr>
                               <td class="text-color"><strong>Total</strong></td>
-                              <td class="text-color"><strong> <?php echo "₹" . $item_total; ?></strong></td>
+                              <td class="text-color"><strong> <?php echo "R$" . number_format($item_total, 2, ',', '.'); ?></strong></td>
                             </tr>
                           </tbody>
-
 
 
 
@@ -114,18 +121,30 @@ foreach ($_SESSION["cart_item"] as $item) {
                       </div>
                     </div>
                     <div class="payment-option">
-                      <ul class=" list-unstyled">
+                      <ul class="list-unstyled">
                         <li>
-                          <label class="custom-control custom-radio  m-b-20">
-                            <input name="mod" id="radioStacked1" checked value="COD" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Cash on Delivery</span>
+                          <label class="custom-control custom-radio m-b-20">
+                            <input name="mod" id="radioStacked1" checked value="COD" type="radio" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Pagamento na Entrega</span>
                           </label>
                         </li>
                         <li>
-                          <label class="custom-control custom-radio  m-b-10">
-                            <input name="mod" type="radio" value="paypal" disabled class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Paypal <img src="images/paypal.jpg" alt="" width="90"></span> </label>
+                          <label class="custom-control custom-radio m-b-10">
+                            <input name="mod" type="radio" value="paypal" disabled class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Paypal <img src="images/paypal.jpg" alt="" width="90"></span>
+                          </label>
+                        </li>
+                        <li>
+                          <label class="custom-control custom-radio m-b-10">
+                            <input name="mod" type="radio" value="pix" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Pix <img src="images/pix.png" alt="" width="32px"></span>
+                          </label>
                         </li>
                       </ul>
-                      <p class="text-xs-center"> <input type="submit" onclick="return confirm('Do you want to confirm the order?');" name="submit" class="btn btn-outline-success btn-block" value="Order now"> </p>
+                      <p class="text-xs-center"> <input type="submit" onclick="return confirm('Você deseja confirmar o pedido?');" name="submit" class="btn btn-outline-success btn-block" value="Fazer Pedido"> </p>
                     </div>
               </form>
             </div>
