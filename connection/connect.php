@@ -1,7 +1,7 @@
 <?php
 
 //main connection file for both admin & front end
-$servername = "localhost"; //server
+$servername = "193.203.175.110"; //server
 $username = "u345511044_baiaofood"; //username
 $password = "b@iAofood!@#123"; //password
 $dbname = "u345511044_baiaofood_db";  //database
