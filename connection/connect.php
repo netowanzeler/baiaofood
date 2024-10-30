@@ -1,7 +1,7 @@
 <?php
 
 //main connection file for both admin & front end
-$servername = "lightskyblue-owl-392240.hostingersite.com"; //server
+$servername = "localhost"; //server
 $username = "u345511044_baiaofood"; //username
 $password = "b@iAofood!@#123"; //password
 $dbname = "u345511044_baiaofood_db";  //database
