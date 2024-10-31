@@ -32,7 +32,7 @@ foreach ($_SESSION["cart_item"] as $item) {
     $success = "Obrigado! Seu pedido foi realizado com sucesso!";
 
     echo "<script>alert('Obrigado! Seu pedido foi realizado com sucesso!');</script>";
-    echo "<script>window.location.replace('your_orders.php');</script>";
+    echo "<script>window.location.replace('pedidos.php');</script>";
   }
 }
 ?>

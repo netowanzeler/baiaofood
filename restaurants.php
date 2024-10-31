@@ -13,7 +13,11 @@ require_once 'globals.php';
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" href="#">
-  <title>Restaurantes</title>
+  <title>Restaurantes | BaiaoFood</title>
+
+  <!-- icon da aba -->
+  <link rel="icon" href="./icons/restaurants.png" type="image/png">
+
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/animsition.min.css" rel="stylesheet">

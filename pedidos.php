@@ -18,7 +18,10 @@ if (!IS_USER_LOGGED_IN) {
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" href="#">
-  <title>Your Orders</title>
+  <title>Pedidos | BaiaoFood</title>
+   <!-- icon da aba -->
+   <link rel="icon" href="./icons/request.png" type="image/png">
+   
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/animsition.min.css" rel="stylesheet">

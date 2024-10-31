@@ -11,7 +11,7 @@
           <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurantes <span class="sr-only"></span></a> </li>
           <?php
           if (IS_USER_LOGGED_IN) {
-            echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Seus Pedidos</a> </li>
+            echo  '<li class="nav-item"><a href="pedidos.php" class="nav-link active">Seus Pedidos</a> </li>
                   <li class="nav-item"><a href="logout.php" class="nav-link active">Sair</a> </li>';
           } else {
             echo '<li class="nav-item"><a href="login.php" class="nav-link active">Entrar</a> </li>
