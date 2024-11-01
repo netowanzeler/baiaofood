@@ -24,8 +24,8 @@
         </div>
         <div class="col-xs-12 col-sm-4 address color-gray">
           <h5>Endereço</h5>
-          <p>213, Raheja Chambers, Free Press Journal Road, Nariman Point, Mumbai, Maharashtra 400021, Índia</p>
-          <h5>Telefone: +91 8093424562</h5>
+          <p>Rua dos Restaurantes, 213, Centro, Baião, Estado do Pará, Brasil</p>
+          <h5>Telefone: +55 91 91234-5678</h5>
         </div>
         <div class="col-xs-12 col-sm-5 additional-info color-gray">
           <h5>Informações Adicionais</h5>
