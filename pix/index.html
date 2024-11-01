@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar pagamento PIX</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f0f4f8; /* Cor de fundo da página */
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            background-color: #FFA500; /* Cor de fundo do cartão */
+            padding: 2rem; /* Espaçamento interno maior */
+        }
+        .form-control {
+            border-radius: 0.75rem;
+            background-color: #fff; /* Fundo branco para campos de entrada */
+        }
+        .btn-primary {
+            background-color: #FF4500; /* Cor do botão */
+            border-radius: 0.75rem;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            background-color: #FF6347; /* Cor do botão ao passar o mouse */
+        }
+        .text-center {
+            margin-top: 1rem;
+            color: #fff; /* Cor do texto no cartão */
+        }
+        .paymentData, .paymentApproved {
+            background-color: #fff; /* Fundo branco para dados de pagamento */
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            margin-top: 1.5rem; /* Espaçamento entre seções */
+        }
+        .paymentData img {
+            margin-top: 1rem;
+            max-width: 100%;
+        }
+        .btn-copy {
+            background-color: #6c757d; /* Cor do botão de copiar */
+            border-radius: 0.75rem;
+            border: none;
+        }
+        .btn-copy:hover {
+            background-color: #5a6268; /* Cor do botão de copiar ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 class="text-center mb-4">Criar um pagamento PIX</h2>
+
+    <form action="javascript: createPayment();">
+        <div class="mb-3">
+            <label for="name" class="form-label text-white">Nome:</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label text-white">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="value" class="form-label text-white">Valor:</label>
+            <input type="number" id="value" name="value" class="form-control" value="1.00" required step="0.01">
+        </div>
+        <button type="submit" class="btn btn-primary">Gerar pagamento</button>
+    </form>
+
+    <div class='paymentData mt-4' hidden>
+        <h3 class="text-center">Dados para pagamento</h3>
+        <div class="paymentData-content text-center">
+            <img src="" id='qr_code_img' alt="QR Code" class="img-fluid my-3">
+            <div class="mt-2">
+                <input type="text" value="" id='qr_code_cp' class="form-control d-inline-block" style='width: 70%;' readonly>
+                <button class="btn btn-copy" onclick="copyToClipboard()">Copiar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="paymentApproved mt-4" hidden>
+        <h3 class="text-success text-center">Pagamento aprovado!</h3>
+    </div>
+</div>
+
+<script>
+    function createPayment() {
+        const body = {
+            name: $("#name").val(),
+            email: $("#email").val(),
+            value: $("#value").val()
+        };
+        $.post("create/", body, (data) => {
+            data = JSON.parse(data);
+            if (data.qr_code) {
+                document.getElementById("qr_code_img").src = "data:image/png;base64," + data.qr_code_base64;
+                document.getElementById("qr_code_cp").value = data.qr_code;
+                document.querySelector(".paymentData").hidden = false;
+                const paymentReference = data.ref;
+                checkPaymentInterval(paymentReference);
+            } else {
+                alert(data.error || 'Erro ao criar o pagamento.');
+            }
+        });
+    }
+
+    function checkPaymentInterval(ref) {
+        setTimeout(() => {
+            $.post("verify/", { ref: ref }, (data) => {
+                data = JSON.parse(data);
+                if (data.status == "approved") {
+                    document.querySelector(".paymentData").hidden = true;
+                    document.querySelector(".paymentApproved").hidden = false;
+                } else {
+                    checkPaymentInterval(ref);
+                }
+            });
+        }, 10000); // 10 segundos
+    }
+
+    function copyToClipboard() {
+        const qrCodeInput = document.getElementById("qr_code_cp");
+        qrCodeInput.select();
+        document.execCommand("copy");
+        alert("Código PIX copiado: " + qrCodeInput.value);
+    }
+</script>
+</body>
+</html>
