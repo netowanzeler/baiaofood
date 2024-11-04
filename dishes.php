@@ -170,7 +170,7 @@ include_once 'product-action.php';
   </div>
 
   <!-- -->
-
+  <!-- 
   <div class="modal fade" id="order-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -311,7 +311,7 @@ include_once 'product-action.php';
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <script src="js/jquery.min.js"></script>
   <script src="js/tether.min.js"></script>
