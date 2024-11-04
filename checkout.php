@@ -1,29 +1,45 @@
+
 <?php
 require 'vendor/autoload.php';
 
-MercadoPago\SDK::setAccessToken('APP_USR-858640062735956-110211-a4bc6d2eed69b35ec17f1057bb57c93e-50169775');
 
-// Criação de uma nova preferência de pagamento
-$preference = new MercadoPago\Preference();
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['items'])) {
+    // Configura o Access Token do Mercado Pago
+    MercadoPago\SDK::setAccessToken('APP_USR-858640062735956-110211-a4bc6d2eed69b35ec17f1057bb57c93e-50169775');
 
-// Configuração dos itens da preferência
-$item = new MercadoPago\Item();
-$item->title = "Produto Exemplo";
-$item->quantity = 1;
-$item->currency_id = "BRL";
-$item->unit_price = 100.00; // Exemplo de valor em reais
+    // Criação da preferência de pagamento
+    $preference = new MercadoPago\Preference();
 
-$preference->items = array($item);
+    // Loop pelos itens enviados via POST
+    $items = [];
+    foreach ($_POST['items'] as $item) {
+        $mp_item = new MercadoPago\Item();
+        $mp_item->title = $item['title'];
+        $mp_item->quantity = (int)$item['quantity'];
+        $mp_item->unit_price = (float)$item['price'];
+        $mp_item->currency_id = "BRL";
+        
+        $items[] = $mp_item;
+    }
 
-// URL de redirecionamento após o pagamento
-$preference->back_urls = array(
-    "success" => "https://seusite.com/sucesso",
-    "failure" => "https://seusite.com/falha",
-    "pending" => "https://seusite.com/pendente"
-);
-$preference->auto_return = "approved";
+    // Adiciona os itens à preferência de pagamento
+    $preference->items = $items;
 
-// Salva a preferência e gera o link
-$preference->save();
+    // URLs de redirecionamento após o pagamento
+    $preference->back_urls = array(
+        "success" => "localhost/baiaofood",
+        "failure" => "localhost/baiaofood",
+        "pending" => "localhost/baiaofood"
+    );
+    $preference->auto_return = "approved";
 
-echo "<a href='$preference->init_point'>Pagar com Mercado Pago</a>";
+    // Salva a preferência e obtém o link de pagamento
+    $preference->save();
+
+    // Redireciona o usuário para o link de pagamento
+    header("Location: {$preference->init_point}");
+    exit();
+} else {
+    echo "Nenhum item no carrinho.";
+}
+?>
