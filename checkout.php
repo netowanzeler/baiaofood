@@ -48,9 +48,9 @@ if ($_POST['submit'] ?? null) {
 
   // URL de redirecionamento após o pagamento
   $preference->back_urls = array(
-    "success" => "https://lightskyblue-owl-392240.hostingersite.com/",
-    "failure" => "https://lightskyblue-owl-392240.hostingersite.com/",
-    "pending" => "https://lightskyblue-owl-392240.hostingersite.com/"
+    "success" => "https://lightskyblue-owl-392240.hostingersite.com/pedidos.php",
+    "failure" => "https://lightskyblue-owl-392240.hostingersite.com/failure.php",
+    "pending" => "https://lightskyblue-owl-392240.hostingersite.com/pending.php"
   );
   $preference->auto_return = "approved";
 
