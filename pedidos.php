@@ -15,144 +15,89 @@ if (!IS_USER_LOGGED_IN) {
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="#">
   <title>Pedidos | BaiaoFood</title>
-   <!-- icon da aba -->
-   <link rel="icon" href="./icons/request.png" type="image/png">
-   
+  <link rel="icon" href="./icons/request.png" type="image/png">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/animsition.min.css" rel="stylesheet">
   <link href="css/animate.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
   <style type="text/css" rel="stylesheet">
-    .indent-small {
-      margin-left: 5px;
+    .page-wrapper {
+      padding-top: 20px;
     }
 
-    .form-group.internal {
-      margin-bottom: 0;
+    .restaurant-entry {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
     }
-
-    .dialog-panel {
-      margin: 10px;
-    }
-
-    .datepicker-dropdown {
-      z-index: 200 !important;
-    }
-
-    .panel-body {
-      background: #e5e5e5;
-      /* Old browsers */
-      background: -moz-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
-      /* FF3.6+ */
-      background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #e5e5e5), color-stop(100%, #ffffff));
-      /* Chrome,Safari4+ */
-      background: -webkit-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
-      /* Chrome10+,Safari5.1+ */
-      background: -o-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
-      /* Opera 12+ */
-      background: -ms-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
-      /* IE10+ */
-      background: radial-gradient(ellipse at center, #e5e5e5 0%, #ffffff 100%);
-      /* W3C */
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e5e5e5', endColorstr='#ffffff', GradientType=1);
-      font: 600 15px "Open Sans", Arial, sans-serif;
-    }
-
-    label.control-label {
-      font-weight: 600;
-      color: #777;
-    }
-
 
     table {
-      width: 750px;
+      width: 100%;
       border-collapse: collapse;
       margin: auto;
-
-    }
-
-    /* Zebra striping */
-    tr:nth-of-type(odd) {
-      background: #eee;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
     }
 
     th {
-      background: #ff3300;
-      color: white;
+      background-color: #ff6600;
+      color: #fff;
       font-weight: bold;
-
-    }
-
-    td,
-    th {
-      padding: 10px;
-      border: 1px solid #ccc;
+      padding: 12px;
       text-align: left;
-      font-size: 14px;
-
     }
 
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
 
-    @media only screen and (max-width: 760px),
-    (min-device-width: 768px) and (max-device-width: 1024px) {
+    tr:nth-of-type(odd) {
+      background-color: #f7f7f7;
+    }
 
-      table {
-        width: 100%;
-      }
+    tr:last-child td {
+      border-bottom: none;
+    }
 
+    button.btn {
+      font-size: 14px;
+      padding: 6px 10px;
+    }
 
-      table,
-      thead,
-      tbody,
-      th,
-      td,
-      tr {
-        display: block;
-      }
+    .btn-danger {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+    }
 
+    .btn-info {
+      background-color: #17a2b8;
+      color: #fff;
+      border: none;
+    }
 
-      thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-      }
+    .btn-warning {
+      background-color: #ffc107;
+      color: #fff;
+      border: none;
+    }
 
-      tr {
-        border: 1px solid #ccc;
-      }
+    .btn-success {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+    }
 
-      td {
-
-        border: none;
-        border-bottom: 1px solid #eee;
-        position: relative;
-        padding-left: 50%;
-      }
-
-      td:before {
-
-        position: absolute;
-
-        top: 6px;
-        left: 6px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-
-        content: attr(data-column);
-
-        color: #000;
-        font-weight: bold;
-      }
-
+    .btn:hover {
+      opacity: 0.9;
     }
   </style>
-
 </head>
 
 <body>
@@ -161,19 +106,11 @@ if (!IS_USER_LOGGED_IN) {
     <div class="inner-page-hero bg-image" data-image-src="images/img/res.jpeg">
       <div class="container"> </div>
     </div>
-    <div class="result-show">
-      <div class="container">
-        <div class="row">
-        </div>
-      </div>
-    </div>
 
     <section class="restaurants-page">
       <div class="container">
         <div class="row">
-          <div class="col-xs-12 col-sm-5 col-md-5 col-lg-3">
-          </div>
-          <div class="col-xs-12 col-sm-7 col-md-7 ">
+          <div class="col-xs-12 col-sm-12 col-md-8 offset-md-2">
             <div class="bg-gray restaurant-entry">
               <div class="row">
                 <table>
@@ -181,7 +118,7 @@ if (!IS_USER_LOGGED_IN) {
                     <tr>
                       <th>Item</th>
                       <th>Quantidade</th>
-                      <th>Preço</th>
+                      <th>Preço (R$)</th>
                       <th>Status</th>
                       <th>Data</th>
                       <th>Ação</th>
@@ -191,40 +128,33 @@ if (!IS_USER_LOGGED_IN) {
                     <?php
                     $query_res = mysqli_query($db, "select * from users_orders where u_id='" . $_SESSION['user_id'] . "'");
                     if (!mysqli_num_rows($query_res) > 0) :
-                      echo '<td colspan="6"><center>Você ainda não fez nenhum pedido.</center></td>';
+                      echo '<tr><td colspan="6" style="text-align:center;">Você ainda não fez nenhum pedido.</td></tr>';
                     else :
                       while ($row = mysqli_fetch_array($query_res)) :
                     ?>
                         <tr>
                           <td data-column="Item"> <?php echo $row['title']; ?></td>
                           <td data-column="Quantidade"> <?php echo $row['quantity']; ?></td>
-                          <td data-column="Preço">₹<?php echo $row['price']; ?></td>
+                          <td data-column="Preço (R$)">R$<?php echo number_format($row['price'], 2, ',', '.'); ?></td>
                           <td data-column="Status">
                             <?php
                             $status = $row['status'];
                             if ($status == "" or $status == "NULL") :
                             ?>
-                              <button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars" aria-hidden="true"> Envio</button>
-                            <?php
-                            endif;
-                            if ($status == "in process") : ?>
+                              <button type="button" class="btn btn-info"><span class="fa fa-bars" aria-hidden="true"></span> Envio</button>
+                            <?php elseif ($status == "in process") : ?>
                               <button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin" aria-hidden="true"></span> A Caminho!</button>
-                            <?php
-                            endif;
-                            if ($status == "closed") :
-                            ?>
-                              <button type="button" class="btn btn-success"><span class="fa fa-check-circle" aria-hidden="true"> Entregue</button>
-                            <?php
-                            endif;
-                            if ($status == "rejected") :
-                            ?>
+                            <?php elseif ($status == "closed") : ?>
+                              <button type="button" class="btn btn-success"><span class="fa fa-check-circle" aria-hidden="true"></span> Entregue</button>
+                            <?php elseif ($status == "rejected") : ?>
                               <button type="button" class="btn btn-danger"> <i class="fa fa-close"></i> Cancelado</button>
-                            <?php
-                            endif;
-                            ?>
+                            <?php endif; ?>
                           </td>
-                          <td data-column="Data"> <?php echo $row['date']; ?></td>
-                          <td data-column="Ação"> <a href="delete_orders.php?order_del=<?php echo $row['o_id']; ?>" onclick="return confirm('Tem certeza de que deseja cancelar seu pedido?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
+                          <td data-column="Data"> <?php echo date("d/m/Y", strtotime($row['date'])); ?></td>
+                          <td data-column="Ação">
+                            <a href="delete_orders.php?order_del=<?php echo $row['o_id']; ?>" onclick="return confirm('Tem certeza de que deseja cancelar seu pedido?');" class="btn btn-danger btn-xs">
+                              <i class="fa fa-trash-o" style="font-size:16px"></i>
+                            </a>
                           </td>
                         </tr>
                     <?php
@@ -237,11 +167,9 @@ if (!IS_USER_LOGGED_IN) {
           </div>
         </div>
       </div>
-  </div>
-  </section>
+    </section>
 
   <?php require_once 'footer.php'; ?>
-
   <script src="js/jquery.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
