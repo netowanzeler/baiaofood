@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['items'])) {
 
     // URLs de redirecionamento após o pagamento
     $preference->back_urls = array(
-        "success" => "localhost/baiaofood",
+        "success" => "https://lightskyblue-owl-392240.hostingersite.com/index.php",
         "failure" => "localhost/baiaofood",
         "pending" => "localhost/baiaofood"
     );
