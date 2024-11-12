@@ -52,7 +52,7 @@ if ($_POST['submit'] ?? null) {
     "failure" => "https://lightskyblue-owl-392240.hostingersite.com/",
     "pending" => "https://lightskyblue-owl-392240.hostingersite.com/"
   );
-  $preference->auto_return = "approved";
+  $preference->auto_return = "success";
 
   // Salva a preferência e gera o link
   $preference->save();
