@@ -198,7 +198,7 @@ if (!IS_USER_LOGGED_IN) {
                         <tr>
                           <td data-column="Item"> <?php echo $row['title']; ?></td>
                           <td data-column="Quantidade"> <?php echo $row['quantity']; ?></td>
-                          <td data-column="Preço">₹<?php echo $row['price']; ?></td>
+                          <td data-column="Preço">R$<?php echo $row['price']; ?></td>
                           <td data-column="Status">
                             <?php
                             $status = $row['status'];
