@@ -2,7 +2,7 @@
   <nav class="navbar top-navbar navbar-expand-md navbar-light">
     <div class="navbar-header">
       <a class="navbar-brand" href="dashboard.php">
-        <span><img src="images/" alt="página inicial" class="dark-logo" /></span>
+        <span><img src="images/image.png" alt="página inicial" class="dark-logo" /></span>
       </a>
     </div>
     <div class="navbar-collapse">
