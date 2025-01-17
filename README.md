@@ -11,3 +11,7 @@ Projeto de extenção - UEPA
 4. AJAX
 5. JQUERY
 
+senhas painel adm: 
+
+usurário: admin
+senha: admin123
