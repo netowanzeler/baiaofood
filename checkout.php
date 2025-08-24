@@ -2,73 +2,105 @@
 require_once 'connection/connect.php';
 require_once 'product-action.php';
 require_once 'globals.php';
-require 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
-MercadoPago\SDK::setAccessToken('APP_USR-858640062735956-110211-a4bc6d2eed69b35ec17f1057bb57c93e-50169775');
+use MercadoPago\MercadoPagoConfig;
+use MercadoPago\Client\Preference\PreferenceClient;
+use MercadoPago\Exceptions\MPApiException;
 
-if (!IS_USER_LOGGED_IN) {
-  header('location:login.php');
+// Se sua sessão não for iniciada no globals.php, descomente:
+// if (session_status() === PHP_SESSION_NONE) { session_start(); }
+
+// (Opcional) Se não tiver a constante, garantimos um fallback simples
+$isLogged = defined('IS_USER_LOGGED_IN') ? IS_USER_LOGGED_IN : (!empty($_SESSION['user_id']));
+if (!$isLogged) {
+  header('Location: login.php');
   exit();
 }
 
-if (!isset($_SESSION['cart_item']) || empty($_SESSION['cart_item'])) {
-  header('location:restaurants.php');
+// Carrinho
+$cart = $_SESSION['cart_item'] ?? [];
+if (!is_array($cart) || count($cart) === 0) {
+  header('Location: restaurants.php');
   exit();
 }
 
-$success = '';
-$item_total = 0;
+// CONFIG MP – SDK nova
+MercadoPagoConfig::setAccessToken('APP_USR-1632496385177731-082316-8adaa1623958b3cbcc79d368739e2102-50169775'); // ← coloque o seu token (de teste ou produção)
 
-// Calcula o total do carrinho antes de processar o pedido
-foreach ($_SESSION["cart_item"] as $item) {
-  $item_total += ($item["price"] * $item["quantity"]);
+// Total
+$item_total = 0.0;
+foreach ($cart as $item) {
+  // Garanta número (evita "1.234,56" etc.)
+  $price = (float) str_replace(',', '.', preg_replace('/[^\d,\.]/', '', (string)$item['price']));
+  $qty   = (int) ($item['quantity'] ?? 1);
+  $item_total += $price * $qty;
 }
 
-if ($_POST['submit'] ?? null) {
-  // Criação de uma nova preferência de pagamento
-  $preference = new MercadoPago\Preference();
+// Criar preferência e redirecionar quando submeter o formulário
+if (isset($_POST['submit'])) {
 
+  // Monte os itens no formato da SDK nova
   $items = [];
-  foreach ($_SESSION["cart_item"] as $item) {
-    // Configuração dos itens da preferência
-    $mp_item = new MercadoPago\Item();
-    $mp_item->title = $item["title"];
-    $mp_item->quantity = $item["quantity"];
-    $mp_item->currency_id = "BRL";
-    $mp_item->unit_price = $item["price"];
-    $items[] = $mp_item;
+  foreach ($cart as $item) {
+    $title = (string) ($item['title'] ?? 'Item');
+    $price = (float) str_replace(',', '.', preg_replace('/[^\d,\.]/', '', (string)$item['price']));
+    $qty   = (int) ($item['quantity'] ?? 1);
 
-    // Salvando o pedido no banco
-    $SQL = "INSERT INTO users_orders(u_id, title, quantity, price) VALUES('" . $_SESSION["user_id"] . "', '" . $item["title"] . "', '" . $item["quantity"] . "', '" . $item["price"] . "')";
-    mysqli_query($db, $SQL);
+    $items[] = [
+      'title'       => $title,
+      'quantity'    => $qty,
+      'unit_price'  => $price, // BRL é inferido pela conta
+    ];
+
+    // (Opcional, mas recomendado) salvar pedido no banco com prepared statement
+    if (isset($_SESSION['user_id'])) {
+      $stmt = $db->prepare("INSERT INTO users_orders (u_id, title, quantity, price) VALUES (?, ?, ?, ?)");
+      $stmt->bind_param('isid', $_SESSION['user_id'], $title, $qty, $price);
+      $stmt->execute();
+      $stmt->close();
+    }
   }
 
-  // Adicionando itens à preferência
-  $preference->items = $items;
+  // Identificador para reconciliação posterior (webhook/success)
+  $externalRef = 'ORDER-' . ($_SESSION['user_id'] ?? 'GUEST') . '-' . time();
 
-  // URL de redirecionamento após o pagamento
-  $preference->back_urls = array(
-    "success" => "https://lightskyblue-owl-392240.hostingersite.com/",
-    "failure" => "https://lightskyblue-owl-392240.hostingersite.com/",
-    "pending" => "https://lightskyblue-owl-392240.hostingersite.com/"
-  );
-  $preference->auto_return = "success";
+  $client = new PreferenceClient();
 
-  // Salva a preferência e gera o link
-  $preference->save();
+  try {
+    $preference = $client->create([
+      'items' => $items,
+      'back_urls' => [
+        // Use localhost no Laragon; em produção, seu domínio
+        'success' => 'https://lightpink-baboon-267549.hostingersite.com/success.php',
+        'failure' => 'https://lightpink-baboon-267549.hostingersite.com/failure.php',
+        'pending' => 'https://lightpink-baboon-267549.hostingersite.com/pending.php',
+      ],
+      'auto_return' => 'approved',
+      'external_reference' => $externalRef,
+      // 'notification_url' => 'https://SEU-DOMINIO.com/webhooks/mercadopago' // (recomendado em produção)
+    ]);
 
-  // Limpar o carrinho após criar o pedido
-  unset($_SESSION["cart_item"]);
+    if (!empty($preference->init_point)) {
+      // IMPORTANTE: não limpe o carrinho aqui. Limpe só no success.php depois de aprovado.
+      header('Location: ' . $preference->init_point);
+      exit();
+    }
 
-  // Redirecionar para o link de pagamento do Mercado Pago
-  header("Location: $preference->init_point");
-  exit();
+    throw new Exception('init_point não retornado pela API.');
+
+  } catch (MPApiException $e) {
+    $api = $e->getApiResponse();
+    $status = $api ? $api->getStatusCode() : 'n/a';
+    $content = $api ? json_encode($api->getContent(), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) : 'n/a';
+    die("Erro Mercado Pago (HTTP $status): <pre>$content</pre>");
+  } catch (Exception $e) {
+    die('Erro ao criar preferência: ' . htmlspecialchars($e->getMessage()));
+  }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -80,27 +112,18 @@ if ($_POST['submit'] ?? null) {
   <link href="css/animate.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
-
 <body>
-
   <div class="site-wrapper">
     <?php require_once 'header.php'; ?>
-
     <div class="page-wrapper">
       <div class="top-links">
         <div class="container">
           <ul class="row links">
             <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="restaurants.php">Escolha o Restaurante</a></li>
-            <li class="col-xs-12 col-sm-4 link-item "><span>2</span><a href="#">Escolha sua comida favorita</a></li>
+            <li class="col-xs-12 col-sm-4 link-item"><span>2</span><a href="#">Escolha sua comida favorita</a></li>
             <li class="col-xs-12 col-sm-4 link-item active"><span>3</span><a href="checkout.php">Pedido e Pagamento</a></li>
           </ul>
         </div>
-      </div>
-
-      <div class="container">
-        <span style="color:green;">
-          <?php echo $success; ?>
-        </span>
       </div>
 
       <div class="container m-t-30">
@@ -133,8 +156,8 @@ if ($_POST['submit'] ?? null) {
                     </div>
                   </div>
                   <div class="payment-option">
-                    <p class="text-xs-center"> 
-                      <input type="submit" name="submit" class="btn btn-outline-success btn-block" value="Fazer Pedido"> 
+                    <p class="text-xs-center">
+                      <input type="submit" name="submit" class="btn btn-outline-success btn-block" value="Fazer Pedido">
                     </p>
                   </div>
                 </div>
@@ -144,9 +167,10 @@ if ($_POST['submit'] ?? null) {
         </form>
       </div>
 
-    <?php require_once 'footer.php'; ?>
+      <?php require_once 'footer.php'; ?>
+    </div>
   </div>
-  
+
   <script src="js/jquery.min.js"></script>
   <script src="js/tether.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
