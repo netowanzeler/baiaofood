@@ -78,7 +78,7 @@ if (isset($_POST['submit'])) {
       ],
       'auto_return' => 'approved',
       'external_reference' => $externalRef,
-      // 'notification_url' => 'https://SEU-DOMINIO.com/webhooks/mercadopago' // (recomendado em produção)
+      'notification_url' => 'https://SEU-DOMINIO.com/webhooks/mercadopago' // (recomendado em produção)
     ]);
 
     if (!empty($preference->init_point)) {
