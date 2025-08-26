@@ -1,0 +1,54 @@
+* [33m7dff3aa[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mpaymentProcess[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m end point webhook
+* [33mcc02e1b[m implementação de notificações
+* [33m0cfc45d[m att sdk
+* [33m4afa0ff[m Atualização das credênciais
+* [33m4b1eddd[m Update README.md-inclusão da senha do painel administrativo
+* [33m31e65a4[m success
+* [33m9af2793[m logo baiaoFood
+* [33m49cf2a1[m atualização de logo e "R$"
+* [33m7da893e[m Merge all changes from 'payment' into 'main'
+*   [33m9253f77[m Resolve conflict by keeping/removing checkout.php
+[32m|[m[33m\[m  
+* [33m|[m [33m3579bbd[m atualizar
+* [33m|[m [33m867d2b1[m ;
+* [33m|[m [33m0f85cb2[m mercado pago
+[33m|[m [33m|[m * [33m4415cb0[m[33m ([m[1;31morigin/checkout_bricks[m[33m)[m Create failure.php
+[33m|[m [33m|[m * [33m3e685c7[m Create pending.php
+[33m|[m [33m|[m * [33m40360d3[m Update checkout.php
+[33m|[m [33m|[m * [33mb7002e7[m Update pedidos.php
+[33m|[m [33m|[m[33m/[m  
+[33m|[m * [33mf135758[m[33m ([m[1;31morigin/payment[m[33m)[m Update checkout.php
+[33m|[m[33m/[m  
+* [33m6d93498[m implementação pix mp
+* [33ma7dc2fe[m implementação do SDK/MP + Checkout.php e renderização
+* [33m40eac33[m Update footer.php
+*   [33mffbe4a3[m Merge branch 'main' of https://github.com/netowanzeler/Restaurant-Management-System-in-PHP
+[35m|[m[36m\[m  
+[35m|[m * [33m66e7046[m Update config.php
+[35m|[m * [33mf5fa8c1[m Update config.php
+[35m|[m * [33m5c7e6b5[m Create config.php
+[35m|[m * [33md741703[m Update README.md
+[35m|[m * [33m4926d44[m Add files via upload
+* [36m|[m [33mb5774e9[m impplementação da nova logo e alterações nos icones
+[36m|[m[36m/[m  
+* [33m35d1c8e[m implementações de icones
+* [33m3b944c6[m atualização do banco. Alteração no servername.
+* [33m8320a10[m database config
+* [33m090d865[m alteração do server name
+* [33mf6f8004[m atualização das credenciais do database
+* [33md026ce4[m deploy git
+* [33md7a7731[m Mudanca: porta 3000 para 8080
+* [33m1f043da[m Ajuste no tamanho da logo
+* [33m674e4c9[m Primeira versao
+* [33m11f3b4a[m Traducao finalizada
+* [33mefefdfc[m Update README.md
+* [33m9148143[m Update README.md
+* [33ma042201[m Update README.md
+* [33mf39aa51[m Add files via upload
+* [33m851258f[m Delete SS directory
+* [33m619c25b[m Update README.md
+* [33m184e125[m Update README.md
+* [33m29357c1[m Delete Screenshot (6).png
+* [33md744be9[m Create README.md
+* [33mce9c487[m Add files via upload
+* [33mf11b3cb[m First commit
