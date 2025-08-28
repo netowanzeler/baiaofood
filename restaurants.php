@@ -30,75 +30,57 @@ require_once 'globals.php';
   <?php require_once 'header.php'; ?>
 
   <div class="page-wrapper">
-    <div class="top-links">
-      <div class="container">
-        <ul class="row links">
 
-          <li class="col-xs-12 col-sm-4 link-item active"><span>1</span><a href="#">Escolha o Restaurante</a></li>
-          <li class="col-xs-12 col-sm-4 link-item"><span>2</span><a href="#">Escolha sua Comida Favorita</a></li>
-          <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Pedir e Pagar</a></li>
-        </ul>
-      </div>
+    <div class="inner-page-hero bg-image d-flex align-items-center justify-content-center text-center"
+      data-image-src="images/img/hero-food.jpeg"
+      style="height: 300px; background-size: cover; background-position: center;">
+      
+      <h1 class="position-relative text-white fw-bold">Encontre Restaurantes</h1>
     </div>
-    <div class="inner-page-hero bg-image" data-image-src="images/img/res.jpeg">
-      <div class="container"> </div>
-    </div>
-    <div class="result-show">
-      <div class="container">
-        <div class="row">
-        </div>
-      </div>
-    </div>
-    <section class="restaurants-page">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-5 col-md-5 col-lg-3">
-          </div>
-          <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
-            <div class="bg-gray restaurant-entry">
-              <div class="row">
-                <?php
-                $ress = $db->query("select * from restaurant");
-                while ($rows = $ress->fetch_assoc()) {
 
-                  echo ' <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
-                              <div class="entry-logo">
-                                <a class="img-fluid" href="dishes.php?res_id=' . $rows['rs_id'] . '" > <img src="admin/Res_img/' . $rows['image'] . '" alt="Logotipo do Restaurante"></a>
-                              </div>
-                              <!-- end:Logo -->
-                              <div class="entry-dscr">
-                                <h5><a href="dishes.php?res_id=' . $rows['rs_id'] . '" >' . $rows['title'] . '</a></h5> <span>' . $rows['address'] . '</span>
-                              </div>
-                              <!-- end:Entry description -->
-                            </div>
-                            
-                             <div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
-                                <div class="right-content bg-white">
-                                  <div class="right-review">
-                                    
-                                    <a href="dishes.php?res_id=' . $rows['rs_id'] . '" class="btn theme-btn-dash">Ver Menu</a> 
-                                  </div>
-                                </div>
-                                <!-- end:right info -->
-                            </div>';
-                }
-                ?>
+    <section class="restaurants-page py-8 mt-5">
+      <div class="container">
+        <div class="row g-4">
+          <?php
+          $ress = $db->query("SELECT * FROM restaurant");
+          while ($rows = $ress->fetch_assoc()) {
+            echo '
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="restaurant-card bg-white rounded-2xl shadow-sm hover:shadow-md transition duration-200 h-100 flex flex-col">
+            
+            <!-- Imagem -->
+            <a href="dishes.php?res_id=' . $rows['rs_id'] . '" class="block overflow-hidden rounded-t-2xl">
+              <img src="admin/Res_img/' . $rows['image'] . '" 
+                   alt="Logotipo do Restaurante"
+                   class="w-100 object-cover" 
+                   style="height:180px;">
+            </a>
 
+            <!-- Texto -->
+            <div class="p-3 flex-1 flex flex-col">
+              <h5 class="font-semibold text-lg mb-1 line-clamp-2">
+                <a href="dishes.php?res_id=' . $rows['rs_id'] . '" class="no-underline text-foreground hover:text-food-warm">
+                  ' . $rows['title'] . '
+                </a>
+              </h5>
+              <p class="text-muted text-sm line-clamp-2 mb-3">' . $rows['address'] . '</p>
+
+              <!-- Botão -->
+              <div class="mt-auto">
+                <a href="dishes.php?res_id=' . $rows['rs_id'] . '" class="btn-primary w-100 text-center block">
+                  Ver Menu
+                </a>
               </div>
-
             </div>
 
-
-
           </div>
-
-
-
+        </div>';
+          }
+          ?>
         </div>
       </div>
+    </section>
   </div>
-  </section>
-
   <?php require_once 'footer.php'; ?>
 
   <script src="js/jquery.min.js"></script>

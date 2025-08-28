@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '4afa0ff09e79658e7175d3846bbf56d97a4cab01',
+        'reference' => '7dff3aaff960eed19aeda6b82e015d187269ae91',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '4afa0ff09e79658e7175d3846bbf56d97a4cab01',
+            'reference' => '7dff3aaff960eed19aeda6b82e015d187269ae91',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -27,6 +27,21 @@
             'install_path' => __DIR__ . '/../mercadopago/dx-php',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'twbs/bootstrap' => array(
+            'pretty_version' => 'v5.3.8',
+            'version' => '5.3.8.0',
+            'reference' => '25aa8cc0b32f0d1a54be575347e6d84b70b1acd7',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../twbs/bootstrap',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'twitter/bootstrap' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => 'v5.3.8',
+            ),
         ),
     ),
 );

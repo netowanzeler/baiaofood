@@ -82,8 +82,8 @@ if (!IS_USER_LOGGED_IN) {
     }
 
     th {
-      background: #ff3300;
-      color: white;
+      background: #ffbe00;
+      color: black;
       font-weight: bold;
 
     }
@@ -91,7 +91,7 @@ if (!IS_USER_LOGGED_IN) {
     td,
     th {
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid #1e1c1c;
       text-align: left;
       font-size: 14px;
 
@@ -129,7 +129,7 @@ if (!IS_USER_LOGGED_IN) {
       td {
 
         border: none;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #1e1c1c;
         position: relative;
         padding-left: 50%;
       }
@@ -157,6 +157,18 @@ if (!IS_USER_LOGGED_IN) {
 
 <body>
   <?php require_once 'header.php'; ?>
+
+  
+  <div class="card-header p-0 bg-image" 
+    data-image-src="images/dish-1.jpg" 
+      style="background-image: url('images/dish-1.jpg'); height:300px; background-size:cover; background-position:center;">
+      <div class="py-10 sm:py-10 md:py-36">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6 tex">
+          Veja aqui, seus pedidos deliciosos.<br class="hidden sm:block"/>
+      </div>
+  </div>
+
+  
   <div class="page-wrapper">
     <div class="inner-page-hero bg-image" data-image-src="images/img/res.jpeg">
       <div class="container"> </div>
@@ -196,10 +208,10 @@ if (!IS_USER_LOGGED_IN) {
                       while ($row = mysqli_fetch_array($query_res)) :
                     ?>
                         <tr>
-                          <td data-column="Item"> <?php echo $row['title']; ?></td>
-                          <td data-column="Quantidade"> <?php echo $row['quantity']; ?></td>
-                          <td data-column="Preço">R$<?php echo $row['price']; ?></td>
-                          <td data-column="Status">
+                          <td class="text-black" data-column="Item"> <?php echo $row['title']; ?></td>
+                          <td class="text-black" data-column="Quantidade"> <?php echo $row['quantity']; ?></td>
+                          <td class="text-black" data-column="Preço">R$<?php echo $row['price']; ?></td>
+                          <td class="text-black" data-column="Status">
                             <?php
                             $status = $row['status'];
                             if ($status == "" or $status == "NULL") :
@@ -223,8 +235,8 @@ if (!IS_USER_LOGGED_IN) {
                             endif;
                             ?>
                           </td>
-                          <td data-column="Data"> <?php echo $row['date']; ?></td>
-                          <td data-column="Ação"> <a href="delete_orders.php?order_del=<?php echo $row['o_id']; ?>" onclick="return confirm('Tem certeza de que deseja cancelar seu pedido?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
+                          <td class="text-black" data-column="Data"> <?php echo $row['date']; ?></td>
+                          <td class="text-black" data-column="Ação"> <a href="delete_orders.php?order_del=<?php echo $row['o_id']; ?>" onclick="return confirm('Tem certeza de que deseja cancelar seu pedido?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
                           </td>
                         </tr>
                     <?php

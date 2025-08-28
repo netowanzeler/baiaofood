@@ -72,9 +72,9 @@ if (isset($_POST['submit'])) {
       'items' => $items,
       'back_urls' => [
         // Use localhost no Laragon; em produção, seu domínio
-        'success' => 'https://lightpink-baboon-267549.hostingersite.com/success.php',
-        'failure' => 'https://lightpink-baboon-267549.hostingersite.com/failure.php',
-        'pending' => 'https://lightpink-baboon-267549.hostingersite.com/pending.php',
+        'success' => 'https://lightpink-baboon-267549.hostingersite.com/index.php',
+        'failure' => 'https://lightpink-baboon-267549.hostingersite.com/index.php',
+        'pending' => 'https://lightpink-baboon-267549.hostingersite.com/index.php',
       ],
       'auto_return' => 'approved',
       'external_reference' => $externalRef,

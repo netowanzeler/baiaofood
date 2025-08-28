@@ -79,6 +79,61 @@ if (isset($_POST['submit'])) {
   <link href="css/animate.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
+<style>
+  /* fundo da página */
+body {
+  background: url('images/img/background_login.jpg') center/cover no-repeat fixed;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* área principal */
+.page-wrapper {
+  background: rgba(20, 20, 20, 0.61); /* card semi-transparente */
+  padding: 40px 20px;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(225, 11, 11, 0.2);
+  margin: 40px auto;
+  max-width: 900px;
+}
+
+/* título das seções */
+section.contact-page h2 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #d7ca11ff;
+  margin-bottom: 20px;
+}
+
+/* inputs */
+.form-control {
+  border-radius: .5rem;
+  border: 1px solid #f2ea7bff;
+  transition: all .3s ease;
+}
+
+.form-control:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 .2rem rgba(0, 86, 179, 0.25);
+}
+
+/* botão */
+.btn.theme-btn {
+  background-color: #f59e0b;
+  color: #fff;
+  border-radius: 2rem;
+  font-weight: 600;
+  padding: 10px 25px;
+  transition: background-color .3s ease, transform .2s ease;
+}
+
+.btn.theme-btn:hover {
+  background-color: #f59e0b;
+  transform: translateY(-2px);
+}
+
+</style>
 
 <body>
 
@@ -150,18 +205,9 @@ if (isset($_POST['submit'])) {
         </div>
       </section>
 
-      <?php require_once 'footer.php'; ?>
+      
 
     </div>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/tether.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/animsition.min.js"></script>
-    <script src="js/bootstrap-slider.min.js"></script>
-    <script src="js/jquery.isotope.min.js"></script>
-    <script src="js/headroom.js"></script>
-    <script src="js/foodpicky.min.js"></script>
 </body>
-
+<?php require_once 'footer.php'; ?>
 </html>
